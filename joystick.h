@@ -10,6 +10,7 @@
 #include "audioGen.h"
 #include <pthread.h>
 void initJoystick(void);
-static void controlAudio(void)
+void controlAudio(void);
+void startJoystickThread(pthread_t *thread);
 
 #endif

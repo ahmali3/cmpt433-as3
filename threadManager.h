@@ -4,6 +4,7 @@
 #include <pthread.h>
 #include <stdbool.h>
 #include "audioGen.h"
+#include "joystick.h"
 
 extern bool allThreadsRunning;
 

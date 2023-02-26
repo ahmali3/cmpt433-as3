@@ -122,8 +122,8 @@ void *audioGenThread(void *arg) {
     } else if (getAudioMode() == ALTERNATE) {
         playDrumBeat2();
     }
-    return NULL;
 }
+    return NULL;
 }
 
 void startAudioThread(pthread_t *thread) {

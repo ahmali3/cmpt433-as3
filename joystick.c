@@ -15,7 +15,7 @@ enum joystickDir
     LEFT,
     RIGHT,
     IN,
-    NONE
+    UNPRESSED
 };
 
 static void runCommand(char *command)
@@ -103,30 +103,71 @@ enum joystickDir readJoystick(void)
     }
     else
     {
-        return NONE;
+        return UNPRESSED;
     }
 }
 
-static void controlAudio(void) {
-    if (readJoystick() == UP) {
-        AudioMixer_setVolume(AudioMixer_getVolume() + 5);
-        usleep(10);
+void controlAudio(void)
+{
+    if (readJoystick() == UP)
+    {
+        while (1)
+        {
+            if (readJoystick() != UP)
+            {
+                AudioMixer_setVolume(AudioMixer_getVolume() + 5);
+                usleep(1000);
+                break;
+            }
+        }
     }
-    else if (readJoystick() == DOWN) {
-        AudioMixer_setVolume(AudioMixer_getVolume() - 5);
-        usleep(10);
+    else if (readJoystick() == DOWN)
+    {
+        while (1)
+        {
+            if (readJoystick() != DOWN)
+            {
+                AudioMixer_setVolume(AudioMixer_getVolume() - 5);
+                usleep(1000);
+                break;
+            }
+        }
     }
-    else if (readJoystick() == LEFT) {
-        setBpm(getBpm() - 5);
-        usleep(10);
+    else if (readJoystick() == LEFT)
+    {
+        while (1)
+        {
+            if (readJoystick() != LEFT)
+            {
+                setBpm(getBpm() - 5);
+                usleep(1000);
+                break;
+            }
+        }
     }
-    else if (readJoystick() == RIGHT) {
-        setBpm(getBpm() + 5);
-        usleep(10);
+    else if (readJoystick() == RIGHT)
+    {
+        while (1)
+        {
+            if (readJoystick() != RIGHT)
+            {
+                setBpm(getBpm() + 5);
+                usleep(1000);
+                break;
+            }
+        }
     }
-    else if (readJoystick() == IN) {
-        AudioMixer_setMode((AudioMixer_getMode() + 1) % 3);
-        usleep(10);
+    else if (readJoystick() == IN)
+    {
+        while (1)
+        {
+            if (readJoystick() != IN)
+            {
+                setAudioMode((getAudioMode() + 1) % 3);
+                usleep(1000);
+                break;
+            }
+        }
     }
 }
 
@@ -140,7 +181,7 @@ void *joystickThread(void *arg)
     return NULL;
 }
 
-startJoystickThread(pthread_t *thread)
+void startJoystickThread(pthread_t *thread)
 {
     pthread_create(thread, NULL, joystickThread, NULL);
 }

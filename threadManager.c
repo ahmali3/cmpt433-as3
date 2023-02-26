@@ -1,7 +1,6 @@
 #define _DEFAULT_SOURCE
 #include "threadManager.h"
 #include "audioMixer_template.h"
-#include "joyStick.h"
 
 bool allThreadsRunning = true;
 

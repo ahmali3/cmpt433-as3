@@ -3,7 +3,7 @@
 
 # Edit this file to compile extra C files into their own programs.
 TARGET= beatbox
-SOURCES= main.c audioMixer.c your_other_files_here.c
+SOURCES= mainDriver.c audioMixer_template.c threadManager.c audioGen.c joystick.c
 
 PUBDIR = $(HOME)/cmpt433/public/myApps
 OUTDIR = $(PUBDIR)
@@ -22,19 +22,21 @@ LFLAGS = -L$(HOME)/cmpt433/public/asound_lib_BBB
 #CFLAGS += -pg
 
 
-all: wav node
-	$(CC_C) $(CFLAGS) $(SOURCES) -o $(OUTDIR)/$(TARGET)  $(LFLAGS) -lpthread -lasound
+# all: wav node
+# 	$(CC_C) $(CFLAGS) $(SOURCES) -o $(OUTDIR)/$(TARGET)  $(LFLAGS) -lpthread -lasound
 
+all: wav
+	$(CC_C) $(CFLAGS) $(SOURCES) -o $(OUTDIR)/$(TARGET)  $(LFLAGS) -lpthread -lasound
 
 clean:
 	rm -f $(OUTDIR)/$(TARGET)
 
-# Copy the sound files, and the nodeJS server to the public directory.
+# # Copy the sound files, and the nodeJS server to the public directory.
 wav:
-	mkdir -p $(PUBDIR)/beatbox-wav-files/ 
-	cp -R beatbox-wav-files/* $(PUBDIR)/beatbox-wav-files/ 
-node:
-	mkdir -p $(PUBDIR)/beatbox-server-copy/ 
-	cp -R as3-server/* $(PUBDIR)/beatbox-server-copy/ 
-	cd $(PUBDIR)/beatbox-server-copy/ && npm install
+	mkdir -p $(PUBDIR)/assets/ 
+	cp -R assets/* $(PUBDIR)/assets/ 
+# node:
+# 	mkdir -p $(PUBDIR)/beatbox-server-copy/ 
+# 	cp -R as3-server/* $(PUBDIR)/beatbox-server-copy/ 
+# 	cd $(PUBDIR)/beatbox-server-copy/ && npm install
 	

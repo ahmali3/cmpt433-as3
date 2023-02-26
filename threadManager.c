@@ -1,5 +1,6 @@
 #define _DEFAULT_SOURCE
 #include "threadManager.h"
+#include "audioMixer_template.h"
 
 bool allThreadsRunning = true;
 
@@ -11,8 +12,6 @@ void runProgram(void)
     startAudioThread(&audio_thread);
  
     pthread_join(audio_thread, NULL);
-
-    printf("\nAll threads stopped\n");
 
 	return;
 }

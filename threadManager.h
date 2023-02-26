@@ -3,6 +3,7 @@
 #define _THREAD_MANAGER_H_
 #include <pthread.h>
 #include <stdbool.h>
+#include "audioGen.h"
 
 extern bool allThreadsRunning;
 

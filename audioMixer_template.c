@@ -53,7 +53,10 @@ void AudioMixer_init(void)
 	// REVISIT:- Implement this. Hint: set the pSound pointer to NULL for each
 	//     sound bite.
 
-
+	for (int i = 0; i < MAX_SOUND_BITES; i++) {
+		soundBites[i].pSound = NULL;
+		soundBites[i].location = 0;
+	}
 
 
 	// Open the PCM output
@@ -156,10 +159,17 @@ void AudioMixer_queueSound(wavedata_t *pSound)
 	 *    not being able to play another wave file.
 	 */
 
+	pthread_mutex_lock(&audioMutex);
 
+	for (int i = 0; i < MAX_SOUND_BITES; i++) {
+		if (soundBites[i].pSound == NULL) {
+			soundBites[i].pSound = pSound;
+			soundBites[i].location = 0;
+			break;
+		}
+	}
 
-
-
+	pthread_mutex_unlock(&audioMutex);
 }
 
 void AudioMixer_cleanup(void)
@@ -273,12 +283,33 @@ static void fillPlaybackBuffer(short *buff, int size)
 	 *
 	 */
 
+	memset(buff, 0, size * sizeof(short));
 
+	pthread_mutex_lock(&audioMutex);
 
+	for (int i = 0; i < MAX_SOUND_BITES; i++) {
+		if (soundBites[i].pSound) {
+			wavedata_t* pSound = soundBites[i].pSound;
+			int pSoundSamples = pSound->numSamples;
+			int offset = soundBites[i].location;
 
+			for (int j = 0; j < size && offset + j < pSoundSamples; j++) {
+				int sample = pSound->pData[offset + j];
+				if (sample > SHRT_MAX) {
+					sample = SHRT_MAX;
+				} else if (sample < SHRT_MIN) {
+					sample = SHRT_MIN;
+				}
+				buff[j] += sample;
+			}
 
-
-
+			soundBites[i].location += size;
+			if (soundBites[i].location >= pSoundSamples) {
+				soundBites[i].pSound = NULL;
+			}
+		}
+	}
+	pthread_mutex_unlock(&audioMutex);
 }
 
 
@@ -313,18 +344,7 @@ void* playbackThread(void* arg)
 	return NULL;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void startPlaybackThread(pthread_t *mixerThread)
+{
+	pthread_create(mixerThread, NULL, playbackThread, NULL);
+}

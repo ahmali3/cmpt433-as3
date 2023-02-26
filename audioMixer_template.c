@@ -268,48 +268,41 @@ static void fillPlaybackBuffer(short *buff, int size)
 	 *   * If, for each pass of the loop which "adds" you need to change a value inside
 	 *     a struct inside an array, it may be faster to first load the value into a local
 	 *      variable, increment this variable as needed throughout the loop, and then write it
-	 *     back into the struct inside the array after. For example:
-	 *           int offset = myArray[someIdx].value;
-	 *           for (int i =...; i < ...; i++) {
-	 *               offset ++;
-	 *           }
-	 *           myArray[someIdx].value = offset;
-	 *   * If you need a value in a number of places, try loading it into a local variable
-	 *          int someNum = myArray[someIdx].value;
-	 *          if (someNum < X || someNum > Y || someNum != Z) {
-	 *              someNum = 42;
-	 *          }
-	 *          ... use someNum vs myArray[someIdx].value;
-	 *
+	 *     back into the struct inside the array after.
 	 */
 
-	memset(buff, 0, size * sizeof(short));
+   memset(buff, 0, size * sizeof(*buff));
 
-	pthread_mutex_lock(&audioMutex);
+    pthread_mutex_lock(&audioMutex);
 
-	for (int i = 0; i < MAX_SOUND_BITES; i++) {
-		if (soundBites[i].pSound) {
-			wavedata_t* pSound = soundBites[i].pSound;
-			int pSoundSamples = pSound->numSamples;
-			int offset = soundBites[i].location;
+    for (int i = 0; i < MAX_SOUND_BITES; i++)
+    {
+        if (soundBites[i].pSound && soundBites[i].location < soundBites[i].pSound->numSamples)
+        {
+            wavedata_t *sound = soundBites[i].pSound;
+            int remaining = sound->numSamples - soundBites[i].location;
+            int samples = remaining > size ? size : remaining;
+            short *src = sound->pData + soundBites[i].location;
+            short *dst = buff;
 
-			for (int j = 0; j < size && offset + j < pSoundSamples; j++) {
-				int sample = pSound->pData[offset + j];
-				if (sample > SHRT_MAX) {
-					sample = SHRT_MAX;
-				} else if (sample < SHRT_MIN) {
-					sample = SHRT_MIN;
-				}
-				buff[j] += sample;
-			}
+            for (int j = 0; j < samples; j++)
+            {
+                int sum = (int)(*dst) + (*src++);
+                sum = sum < SHRT_MIN ? SHRT_MIN : (sum > SHRT_MAX ? SHRT_MAX : sum);
+                *dst++ = (short)sum;
+            }
 
-			soundBites[i].location += size;
-			if (soundBites[i].location >= pSoundSamples) {
-				soundBites[i].pSound = NULL;
-			}
-		}
-	}
-	pthread_mutex_unlock(&audioMutex);
+            soundBites[i].location += samples;
+
+            if (soundBites[i].location >= sound->numSamples)
+            {
+                soundBites[i].pSound = NULL;
+                soundBites[i].location = 0;
+            }
+        }
+    }
+
+    pthread_mutex_unlock(&audioMutex);
 }
 
 

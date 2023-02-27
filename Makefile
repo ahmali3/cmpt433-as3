@@ -3,7 +3,7 @@
 
 # Edit this file to compile extra C files into their own programs.
 TARGET= beatbox
-SOURCES= mainDriver.c audioMixer_template.c threadManager.c audioGen.c joystick.c
+SOURCES= mainDriver.c audioMixer_template.c threadManager.c audioGen.c joystick.c accelerometer.c utility.c
 
 PUBDIR = $(HOME)/cmpt433/public/myApps
 OUTDIR = $(PUBDIR)

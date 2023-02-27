@@ -4,6 +4,9 @@
         "threadmanager.h": "c",
         "audiomixer_template.h": "c",
         "time.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "ioctl.h": "c",
+        "accelerometer.h": "c",
+        "utility.h": "c"
     }
 }

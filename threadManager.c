@@ -1,6 +1,8 @@
 #define _DEFAULT_SOURCE
 #include "threadManager.h"
 #include "audioMixer_template.h"
+#include "joystick.h"
+#include "accelerometer.h"
 
 bool allThreadsRunning = true;
 

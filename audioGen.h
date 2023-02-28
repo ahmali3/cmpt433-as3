@@ -11,10 +11,18 @@
 #define dirSnare2 "assets/100062__menegass__gui-drum-tom-hi-hard.wav"
 
 enum audioMode {
+    STOP,
     ROCK,
     ALTERNATE,
+    CUSTOM2,
     NONE
 };
+
+enum music_inst{
+    BASE,
+    HIHAT,
+    SNARE
+    };
 
 void startAudioThread(pthread_t *thread);
 int getBpm(void);
@@ -22,5 +30,7 @@ void setBpm(int newBpm);
 
 void setAudioMode(enum audioMode newMode);
 enum audioMode getAudioMode(void);
-
+void AudioMixer_Queue(enum music_inst ins);
+void stopAudioMixer();
 #endif
+int AudioMixer_getTempo();

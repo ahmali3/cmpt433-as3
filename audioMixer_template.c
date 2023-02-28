@@ -341,3 +341,4 @@ void startPlaybackThread(pthread_t *mixerThread)
 {
 	pthread_create(mixerThread, NULL, playbackThread, NULL);
 }
+

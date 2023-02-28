@@ -130,6 +130,54 @@ void playDrumBeat2(void)
     sleepForHalfBeat();
 }
 
+void playDrumBeat3(void)
+{
+    AudioMixer_queueSound(&baseDrum2);
+    AudioMixer_queueSound(&hiHat2);
+    sleepForHalfBeat();
+
+    AudioMixer_queueSound(&hiHat2);
+    sleepForHalfBeat();
+
+    AudioMixer_queueSound(&baseDrum2);
+    AudioMixer_queueSound(&snare2);
+    sleepForHalfBeat();
+
+    AudioMixer_queueSound(&hiHat2);
+    AudioMixer_queueSound(&baseDrum2);
+    sleepForHalfBeat();
+
+    AudioMixer_queueSound(&hiHat2);
+    AudioMixer_queueSound(&baseDrum2);
+    sleepForHalfBeat();
+
+    AudioMixer_queueSound(&baseDrum2);
+    sleepForHalfBeat();
+
+    AudioMixer_queueSound(&hiHat2);
+    AudioMixer_queueSound(&hiHat2);
+    sleepForHalfBeat();
+
+    AudioMixer_queueSound(&baseDrum2);
+    sleepForHalfBeat();
+}
+
+void AudioMixer_Queue(enum music_inst ins) {
+    switch (ins) {
+        case BASE:
+            AudioMixer_queueSound(&baseDrum1);
+            sleepForHalfBeat();
+            break;
+        case HIHAT:
+            AudioMixer_queueSound(&hiHat1);
+            sleepForHalfBeat();
+            break;
+        case SNARE:
+            AudioMixer_queueSound(&snare1);
+            sleepForHalfBeat();
+            break;
+    }
+}
 void *audioGenThread(void *arg)
 {   
     initAccelerometer();
@@ -164,6 +212,10 @@ void *audioGenThread(void *arg)
         {
             playDrumBeat2();
         }
+        else if (getAudioMode() == CUSTOM2)
+        {
+            playDrumBeat3();
+        }
     }
     freeAudio();
     AudioMixer_cleanup();
@@ -173,4 +225,15 @@ void *audioGenThread(void *arg)
 void startAudioThread(pthread_t *thread)
 {
     pthread_create(thread, NULL, audioGenThread, NULL);
+}
+
+void stopAudioMixer()
+{
+    freeAudio();
+    AudioMixer_cleanup();
+}
+
+int AudioMixer_getTempo()
+{
+    return bpm;
 }

@@ -30,12 +30,12 @@ void initAudio(void)
 
 void freeAudio(void)
 {
-    AudioMixer_freeWaveData(&baseDrum1);
-    AudioMixer_freeWaveData(&hiHat1);
-    AudioMixer_freeWaveData(&snare1);
-    AudioMixer_freeWaveData(&baseDrum2);
-    AudioMixer_freeWaveData(&hiHat2);
-    AudioMixer_freeWaveData(&snare2);
+    AudioMixer_freeWaveFileData(&baseDrum1);
+    AudioMixer_freeWaveFileData(&hiHat1);
+    AudioMixer_freeWaveFileData(&snare1);
+    AudioMixer_freeWaveFileData(&baseDrum2);
+    AudioMixer_freeWaveFileData(&hiHat2);
+    AudioMixer_freeWaveFileData(&snare2);
 }
 
 int getBpm(void)

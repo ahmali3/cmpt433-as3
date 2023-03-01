@@ -1,9 +1,8 @@
-# Makefile for building embedded application.
-# by Brian Fraser
+# Makefile for building beatbox embedded application.
+# Modified from Brian Fraser's Makefile for CMPT433.
 
-# Edit this file to compile extra C files into their own programs.
 TARGET= beatbox_app
-SOURCES= mainDriver.c audioMixer_template.c threadManager.c audioGen.c joystick.c accelerometer.c utility.c udp_srv.c
+SOURCES= mainDriver.c audioMixer_template.c threadManager.c audioGen.c joystick.c accelerometer.c utility.c udp_srv.c periodTimer.c
 
 PUBDIR = $(HOME)/cmpt433/public/myApps/bb_app
 OUTDIR = $(PUBDIR)
@@ -15,15 +14,12 @@ CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror -Wshadow
 
 
 # Asound Library
-# - See the AudioGuide for steps to copy library from target to host.
 LFLAGS = -L$(HOME)/cmpt433/public/asound_lib_BBB
 
 # -pg for supporting gprof profiling.
 #CFLAGS += -pg
 
 
-# all: wav node
-# 	$(CC_C) $(CFLAGS) $(SOURCES) -o $(OUTDIR)/$(TARGET)  $(LFLAGS) -lpthread -lasound
 all: app_beatbox wav_files server_node
 default: all
 

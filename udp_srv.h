@@ -1,3 +1,7 @@
+// Runs the UDP server for the BeagleBone to connect to the user web page that controls the drum playback.
+#ifndef _UDP_SRV_H_
+#define _UDP_SRV_H_
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -7,10 +11,11 @@
 #include "audioGen.h"
 #include "audioMixer_template.h"
 
-#define BUFSIZE 		2048
-#define LISTEN_PORT     12345
+#define BUFSIZE 2048
+#define LISTEN_PORT 12345
 
-enum cmds{
+enum cmds
+{
 	CMD_CHECK,
 	CMD_STOP,
 	CMD_PLAY_BASE,
@@ -26,4 +31,7 @@ enum cmds{
 	CMD_VOL_DEC
 };
 
+// Starts the UDP server.
 void start_udp();
+
+#endif

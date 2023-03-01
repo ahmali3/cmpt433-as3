@@ -1,4 +1,4 @@
-// Generates audio
+// Generates drum sounds based on the tempo and mode on the beaglebone.
 #ifndef _AUDIO_GEN_H_
 #define _AUDIO_GEN_H_
 #include <pthread.h>
@@ -10,7 +10,8 @@
 #define dirHiHat2 "assets/100061__menegass__gui-drum-splash-soft.wav"
 #define dirSnare2 "assets/100062__menegass__gui-drum-tom-hi-hard.wav"
 
-enum audioMode {
+enum audioMode
+{
     STOP,
     ROCK,
     ALTERNATE,
@@ -18,11 +19,12 @@ enum audioMode {
     NONE
 };
 
-enum music_inst{
+enum music_inst
+{
     BASE,
     HIHAT,
     SNARE
-    };
+};
 
 void startAudioThread(pthread_t *thread);
 int getBpm(void);

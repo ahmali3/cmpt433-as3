@@ -10,13 +10,14 @@
 #include <stdbool.h>
 #include "accelerometer.h"
 #include "utility.h"
+#include "periodTimer.h"
 
 int i2cFileDesc;
 
 void initAccelerometer(void)
 {
-	runCommand("config-pin P9_18 i2c");
-	runCommand("config-pin P9_17 i2c");
+    runCommand("config-pin P9_18 i2c");
+    runCommand("config-pin P9_17 i2c");
     i2cFileDesc = initI2cBus(I2CDRV_LINUX_BUS1, I2C_DEVICE_ADDRESS);
     unsigned char buff[2];
     buff[0] = CTRL_REG1;
@@ -27,6 +28,8 @@ void initAccelerometer(void)
 // Read the accelerometer
 int16_t *readAccelerometer(void)
 {
+    Period_markEvent(PERIOD_EVENT_SAMPLE_ACCEL);
+    
     write(i2cFileDesc, ZERO, 1);
     unsigned char buff[7];
     static int16_t accelValue[3];

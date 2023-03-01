@@ -1,3 +1,4 @@
+// Initializes and reads the accelerometer on the beaglebone.
 #ifndef _ACCELEROMETER_H_
 #define _ACCELEROMETER_H_
 

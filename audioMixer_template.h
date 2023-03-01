@@ -5,7 +5,8 @@
 
 #include <pthread.h>
 
-typedef struct {
+typedef struct
+{
 	int numSamples;
 	short *pData;
 } wavedata_t;
@@ -29,11 +30,9 @@ void AudioMixer_queueSound(wavedata_t *pSound);
 // Get/set the volume.
 // setVolume() function posted by StackOverflow user "trenki" at:
 // http://stackoverflow.com/questions/6787318/set-alsa-master-volume-from-c-code
-int  AudioMixer_getVolume(void);
+int AudioMixer_getVolume(void);
 void AudioMixer_setVolume(int newVolume);
 
 void startPlaybackThread(pthread_t *mixerThread);
-
-
 
 #endif

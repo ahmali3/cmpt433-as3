@@ -4,13 +4,14 @@
 #include "joystick.h"
 #include "accelerometer.h"
 #include "udp_srv.h"
+#include "periodTimer.h"
 bool allThreadsRunning = true;
 
 // Runs all of the threads that the program requires.
 void runProgram(void)
 {
-	pthread_t audio_thread, joystick_thread; 
-    pthread_t udp_thread;
+    Period_init();
+	pthread_t audio_thread, joystick_thread, udp_thread;
 
     startAudioThread(&audio_thread);
     startJoystickThread(&joystick_thread);

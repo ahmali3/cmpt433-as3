@@ -1,10 +1,10 @@
 # Makefile for building beatbox embedded application.
 # Modified from Brian Fraser's Makefile for CMPT433.
 
-TARGET= beatbox_app
+TARGET= beatbox
 SOURCES= mainDriver.c audioMixer_template.c threadManager.c audioGen.c joystick.c accelerometer.c utility.c udp_srv.c periodTimer.c
 
-PUBDIR = $(HOME)/cmpt433/public/myApps/bb_app
+PUBDIR = $(HOME)/cmpt433/public/myApps/
 OUTDIR = $(PUBDIR)
 CROSS_TOOL = arm-linux-gnueabihf-
 CC_CPP = $(CROSS_TOOL)g++
@@ -29,14 +29,16 @@ app_beatbox: mainDriver.c
 
 clean:
 	rm -f $(OUTDIR)/$(TARGET)
+	rm -rf $(PUBDIR)/beatbox-wav-files/
+	rm -rf $(PUBDIR)/beatbox-server-copy/
 
 # # Copy the sound files, and the nodeJS server to the public directory.
 wav_files::
-	mkdir -p $(PUBDIR)/assets/ 
-	cp -R assets/* $(PUBDIR)/assets/ 
+	mkdir -p $(PUBDIR)/beatbox-wav-files/ 
+	cp -R beatbox-wav-files/* $(PUBDIR)/beatbox-wav-files/
 
 server_node:
-	mkdir -p $(PUBDIR)/app_srv/ 
-	cp -R as3-server/* $(PUBDIR)/app_srv/ 
-	cd $(PUBDIR)/app_srv/ && npm install
+	mkdir -p $(PUBDIR)/beatbox-server-copy/
+	cp -R as3-server/* $(PUBDIR)/beatbox-server-copy/
+	cd $(PUBDIR)/beatbox-server-copy/ && npm install
 	

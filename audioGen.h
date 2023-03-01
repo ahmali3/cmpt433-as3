@@ -3,12 +3,12 @@
 #define _AUDIO_GEN_H_
 #include <pthread.h>
 
-#define dirBaseDrum1 "assets/100051__menegass__gui-drum-bd-hard.wav"
-#define dirHiHat1 "assets/100053__menegass__gui-drum-cc.wav"
-#define dirSnare1 "assets/100059__menegass__gui-drum-snare-soft.wav"
-#define dirBaseDrum2 "assets/100063__menegass__gui-drum-tom-hi-soft.wav"
-#define dirHiHat2 "assets/100061__menegass__gui-drum-splash-soft.wav"
-#define dirSnare2 "assets/100062__menegass__gui-drum-tom-hi-hard.wav"
+#define dirBaseDrum1 "beatbox-wav-files/100051__menegass__gui-drum-bd-hard.wav"
+#define dirHiHat1 "beatbox-wav-files/100053__menegass__gui-drum-cc.wav"
+#define dirSnare1 "beatbox-wav-files/100059__menegass__gui-drum-snare-soft.wav"
+#define dirBaseDrum2 "beatbox-wav-files/100063__menegass__gui-drum-tom-hi-soft.wav"
+#define dirHiHat2 "beatbox-wav-files/100061__menegass__gui-drum-splash-soft.wav"
+#define dirSnare2 "beatbox-wav-files/100062__menegass__gui-drum-tom-hi-hard.wav"
 
 enum audioMode
 {
